@@ -26,7 +26,7 @@
     <tbody>
         {% for personaTemporal in personas %}
             <tr>
-                <td>{{ personaTemporal.id }}</td>   
+                <td>{{ personaTemporal.id_persona  }}</td>   
                 <td>{{ personaTemporal.nombre }}</td>
                 <td>{{ personaTemporal.apellido }}</td>
                 <td>{{ personaTemporal.telefono|default:"-" }}</td>
