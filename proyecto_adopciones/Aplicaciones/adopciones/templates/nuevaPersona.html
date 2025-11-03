@@ -5,7 +5,7 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Registrar Nueva Persona</h2>
 
-    <form method="POST" class="shadow p-4 rounded bg-light">
+    <form action="{% url 'guardarPersona' %}" method="POST">
         {% csrf_token %}
 
         <div class="mb-3">
