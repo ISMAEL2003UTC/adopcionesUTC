@@ -36,7 +36,7 @@
                     <a href="{% url 'editarPersona' personaTemporal.id_persona %}" class="btn btn-primary">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </a>
-                    <a href="#" onclick="eliminarPersona('{{ personaTemporal.id }}');" class="btn btn-danger">
+                    <a href="eliminarPersona/{{personaTemporal.id_persona}}" onclick="eliminarPersona('{{ personaTemporal.id }}');" class="btn btn-danger">
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>

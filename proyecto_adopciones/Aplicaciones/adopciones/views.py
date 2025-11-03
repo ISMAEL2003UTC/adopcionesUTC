@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from .models import Persona, Mascota, Adopcion
 
 # Create your views here.
-# renderizando de todos los listados
+# renderizando de todos los listados ######################################################################
 def persona(request):
     listadoPersona = Persona.objects.all()
     return render(request, 'persona.html', {'personas': listadoPersona})
@@ -14,7 +14,7 @@ def adopcion(request):
     listadoAdopcion = Adopcion.objects.all()
     return render(request, 'adopcion.html', {'adopciones': listadoAdopcion})
 
-#formularios para agregar nuevos datos
+#formularios para agregar nuevos datos ################################################################
 def nuevaAdopcion(request):
     return render(request, 'nuevaAdopcion.html')
 def nuevaPersona(request):
@@ -22,7 +22,7 @@ def nuevaPersona(request):
 def nuevaMascota(request):
     return render(request, 'nuevaMascota.html')
 
-# apartado para guardar en la bdd
+# apartado para guardar en la bdd ##################################################################
 def guardarPersona(request):
     if request.method == 'POST':
         nombre = request.POST['nombre']
@@ -52,4 +52,10 @@ def editarPersona(request, id_persona):
         return redirect('persona')
 
     return render(request, 'editarPersona.html', {'persona': persona}) 
+
+#funciones para eliminar registros #########################################################################3
     
+def eliminarPersona(request, id_persona):
+    personaEliminar = Persona.objects.get(id_persona=id_persona)
+    personaEliminar.delete()
+    return redirect('persona')
