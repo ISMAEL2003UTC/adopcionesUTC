@@ -43,6 +43,21 @@
         </div>
     </form>
 </div>
+<script>
+$(document).ready(function() {
+    $("#imagen").fileinput({
+        theme: "fas",
+        showUpload: false,
+        showCaption: true,
+        allowedFileExtensions: ["jpg", "jpeg", "png", "gif"],
+        maxFileSize: 2048, // 2MB
+        maxFilesNum: 1,
+        initialPreviewAsData: true,
+        browseLabel: "Seleccionar",
+        removeLabel: "Eliminar",
+    });
+});
+</script>
 
 <script>
 function confirmarGuardado() {
