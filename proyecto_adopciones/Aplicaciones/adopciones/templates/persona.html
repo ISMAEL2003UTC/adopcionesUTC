@@ -2,8 +2,12 @@
 {% load static %}
 {% block body %}
 
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">LISTA DE PERSONAS ADOPTANTES</h1>
+    <img src="/media/personas/persona.png" alt="Icono" style="height: 100px; width: 100px; object-fit: contain;">
+</div>
 
-<h1> LISTA DE PERSONAS ADOPTANTES</h1>
+
 <div class="mb-3">
     <a href="{% url 'nuevaPersona' %}" class="btn btn-success">
         <i class="fa fa-plus"></i> Agregar Nueva Persona
@@ -27,7 +31,7 @@
     <tbody>
         {% for personaTemporal in personas %}
             <tr>
-                <td>{{ personaTemporal.id_persona  }}</td>   
+                <td>{{ personaTemporal.id_persona }}</td>   
                 <td>{{ personaTemporal.nombre }}</td>
                 <td>{{ personaTemporal.apellido }}</td>
                 <td>{{ personaTemporal.telefono|default:"-" }}</td>
@@ -71,7 +75,7 @@ function confirmarEliminacion(id) {
         }
     });
 }
-</script>
 
+</script>
 
 {% endblock %}
