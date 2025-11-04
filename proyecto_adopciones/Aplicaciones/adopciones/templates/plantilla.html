@@ -5,7 +5,7 @@
 
 
   <!-- importando JQUERY -->
-
+   <script src="https://code.jquery.com/jquery-3.7.1.js" ></script>
   <!-- importando JQUERY VALIDATION-->
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js "></script>
   <!-- importacion validar extensiones de archivos -->
@@ -56,7 +56,8 @@
     />
 
     <!-- Fonts and icons -->
-    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="{% static 'plantilla/kaiadmin/assets/js/plugin/webfont/webfont.min.js' %}"></script>
+
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -67,7 +68,7 @@
             "Font Awesome 5 Brands",
             "simple-line-icons",
           ],
-          urls: ["assets/css/fonts.min.css"],
+          urls: ["{% static 'plantilla/kaiadmin/assets/css/fonts.min.css' %}"],
         },
         active: function () {
           sessionStorage.fonts = true;
@@ -81,9 +82,10 @@
     <link rel="stylesheet" href="{% static 'plantilla/kaiadmin/assets/css/kaiadmin.min.css'%}" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="assets/css/demo.css" />
+    <link rel="stylesheet" href="{% static 'plantilla/kaiadmin/assets/css/demo.css' %}">
+
   </head>
-  <body>
+  
     <div class="wrapper">
       <!-- Sidebar -->
       <div class="sidebar" data-background-color="dark">
@@ -259,15 +261,13 @@
                     aria-expanded="false"
                   >
                     <div class="avatar-sm">
-                      <img
-                        src="assets/img/usuario.jpg"
-                        alt="..."
-                        class="avatar-img rounded-circle"
-                      />
+                      <img src="{% static 'plantilla/kaiadmin/assets/img/usuario.png' %}" 
+                          alt="usuario" 
+                          style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
                     </div>
                     <span class="profile-username">
                       <span class="op-7">BIENVENIDO,</span>
-                      <span class="fw-bold">usuario</span>
+                      <span class="fw-bold">ISMAEL</span>
                     </span>
                   </a>
                   <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -275,11 +275,8 @@
                       <li>
                         <div class="user-box">
                           <div class="avatar-lg">
-                            <img
-                              src="assets/img/profile.jpg"
-                              alt="image profile"
-                              class="avatar-img rounded"
-                            />
+                            <img src="{% static 'plantilla/kaiadmin/assets/img/profile.jpg' %}" alt="Profile">
+
                           </div>
                           
                         </div>
@@ -348,15 +345,17 @@
   <!-- Chart Circle -->
   <script src="{% static 'plantilla/kaiadmin/assets/js/plugin/chart-circle/circles.min.js' %}"></script>
 
+  
 
   <!-- Bootstrap Notify -->
-  <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+  <script src="{% static 'plantilla/kaiadmin/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
+
 
   <!-- jQuery Vector Maps -->
-  <script src="assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-  <script src="assets/js/plugin/jsvectormap/world.js"></script>
+<script src="{% static 'plantilla/kaiadmin/assets/js/plugin/jsvectormap/jsvectormap.min.js' %}"></script>
+<script src="{% static 'plantilla/kaiadmin/assets/js/plugin/jsvectormap/world.js' %}"></script>
 
- 
+
 
   <!-- Kaiadmin JS -->
   <script src="{% static 'plantilla/kaiadmin/assets/js/kaiadmin.min.js' %}"></script>
