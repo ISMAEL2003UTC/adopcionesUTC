@@ -5,6 +5,7 @@ from django.contrib import messages
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.urls import reverse
 
 
 from .models import Persona, Mascota, Adopcion
@@ -61,22 +62,36 @@ def guardarPersona(request):
     else:
         return redirect('nuevaPersona')
 
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from .models import Persona
+
 def editarPersona(request, id_persona):
     persona = Persona.objects.get(id_persona=id_persona)
 
     if request.method == 'POST':
-        persona.nombre = request.POST['nombre']
-        persona.apellido = request.POST['apellido']
-        persona.telefono = request.POST.get('telefono')
-        persona.email = request.POST.get('email')
-        persona.direccion = request.POST.get('direccion')
-        persona.imagen = request.FILES['imagen']
-        if 'imagen' in request.FILES:
-            persona.imagen = request.FILES['imagen']
-        persona.save()
-        return redirect('persona')
+        nombre = request.POST.get('nombre', '').strip()
+        apellido = request.POST.get('apellido', '').strip()
+        telefono = request.POST.get('telefono', '').strip()
+        email = request.POST.get('email', '').strip()
+        direccion = request.POST.get('direccion', '').strip()
+        imagen = request.FILES.get('imagen')  # Opcional
 
-    return render(request, 'editarPersona.html', {'persona': persona}) 
+        if not nombre or not apellido or not email or not direccion:
+            messages.error(request, "Por favor, complete todos los campos obligatorios.")
+            return redirect(reverse('editarPersona', kwargs={'id_persona': id_persona}))
+        persona.nombre = nombre
+        persona.apellido = apellido
+        persona.telefono = telefono
+        persona.email = email
+        persona.direccion = direccion
+        if imagen:
+            persona.imagen = imagen  
+        persona.save()
+        messages.success(request, "Persona actualizada correctamente.")
+        return redirect('persona')
+    return render(request, 'editarPersona.html', {'persona': persona})
+
 
 #funciones para eliminar registros #########################################################################3
     

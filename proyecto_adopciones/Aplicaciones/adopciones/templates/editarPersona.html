@@ -66,6 +66,88 @@ function confirmarEdicion() {
 }
 </script>
 
+
+<script>
+$(document).ready(function() {
+    $.validator.addMethod("lettersonly", function(value, element) {
+        return this.optional(element) || /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value);
+    }, "Solo se permiten letras");
+
+    $("#formEditarPersona").validate({
+        rules: {
+            nombre: {
+                required: true,
+                minlength: 2,
+                maxlength: 50,
+                lettersonly: true
+            },
+            apellido: {
+                required: true,
+                minlength: 2,
+                maxlength: 50,
+                lettersonly: true
+            },
+            telefono: {
+                digits: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            direccion: {
+                required: true,
+                minlength: 5,
+                maxlength: 200
+            },
+            imagen: {
+                extension: "jpg|jpeg|png"
+            }
+        },
+        messages: {
+            nombre: {
+                required: "Ingrese el nombre",
+                minlength: "El nombre debe tener al menos 2 caracteres",
+                maxlength: "El nombre no debe exceder 50 caracteres",
+                lettersonly: "Solo se permiten letras"
+            },
+            apellido: {
+                required: "Ingrese el apellido",
+                minlength: "El apellido debe tener al menos 2 caracteres",
+                maxlength: "El apellido no debe exceder 50 caracteres",
+                lettersonly: "Solo se permiten letras"
+            },
+            telefono: {
+                digits: "Solo se permiten números",
+                minlength: "El teléfono debe tener al menos 10 dígitos",
+                maxlength: "El teléfono no debe exceder 10 dígitos"
+            },
+            email: {
+                required: "Ingrese el correo electrónico",
+                email: "Ingrese un correo válido"
+            },
+            direccion: {
+                required: "Ingrese la dirección",
+                minlength: "La dirección debe tener al menos 5 caracteres",
+                maxlength: "La dirección no debe exceder 200 caracteres"
+            },
+            imagen: {
+                extension: "Solo se permiten archivos JPG, JPEG o PNG"
+            }
+        },
+        errorElement: "span",
+        errorClass: "error text-danger",
+        highlight: function(element) {
+            $(element).addClass("is-invalid");
+        },
+        unhighlight: function(element) {
+            $(element).removeClass("is-invalid");
+        }
+    });
+});
+</script>
+
 <script>
 $(document).ready(function() {
     $("#imagen").fileinput({
