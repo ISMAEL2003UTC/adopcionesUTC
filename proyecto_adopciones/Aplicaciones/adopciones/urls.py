@@ -5,6 +5,15 @@ from .import views
 urlpatterns = [
     path('persona/', views.persona, name='persona'),
     path('mascota/', views.mascota, name='mascota'),
-    path('adopcion/', views.adopcion, name='adopcion'),
-    path('nuevaAdopcion/', views.nuevaAdopcion, name='nuevaAdopcion'),
+    
+    #adopciones
+   
+    path('listar-adopciones',views.listar_adopciones),
+    #path('crear-adopciones',views.crear_adopciones),
+    #path('guardar-adopciones',views.guardar_adopciones),
+    #path('eliminar-adopciones/<id>',views.eliminar_adopciones),
+    #path('editar-adopciones/<id>',views.editar_adopciones),
+    #path('procesar-info-adopciones',views.procesar_info_adopciones),
+
+    
 ]

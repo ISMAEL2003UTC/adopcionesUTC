@@ -17,3 +17,7 @@ def adopcion(request):
 
 def nuevaAdopcion(request):
     return render(request, 'nuevaAdopcion.html')
+
+def listar_adopciones(request):
+    adopciones = Adopcion.objects.all()
+    return render(request,'adopciones/indexAdopciones.html',{'adopciones':adopciones})
