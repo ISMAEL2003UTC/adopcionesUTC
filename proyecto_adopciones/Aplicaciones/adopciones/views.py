@@ -1,6 +1,11 @@
+
 from django.shortcuts import redirect, render
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
 
 from .models import Persona, Mascota, Adopcion
 
@@ -137,3 +142,49 @@ def eliminar_adopciones(request,id):
     adopcion.delete()
     messages.success(request, f'Adopcion de mascota  {nombre} eliminado correctamente')
     return redirect('/listar-adopciones')
+<<<<<<< HEAD
+=======
+
+def editar_adopciones(request,id):
+    adopciones= Adopcion.objects.get(id=id)
+    mascotas=Mascota.objects.all()
+    personas=Persona.objects.all()
+    return render(request,'adopciones/editAdopciones.html',{'adopciones':adopciones,'mascotas':mascotas,'personas':personas})
+
+def procesar_info_adopciones(request):
+    if request.method == 'POST':
+        id_adopcion = request.POST.get('id')
+        personas_id = request.POST.get('personas')
+        mascotas_id = request.POST.get('mascotas')
+        fecha_adopcion = request.POST.get('fecha_adopcion')
+        observaciones = request.POST.get('observaciones')
+
+        adopcion = Adopcion.objects.get(id=id_adopcion)
+        persona = Persona.objects.get(id_persona=personas_id)
+        mascota = Mascota.objects.get(id=mascotas_id)
+
+        # Verificar si esa persona ya adoptó esa misma mascota (excepto esta adopción)
+        if Adopcion.objects.filter(id_persona=persona, id_mascota=mascota).exclude(id=adopcion.id).exists():
+            messages.error(request, 'Esta persona ya adoptó esta mascota.')
+            return redirect(f'/editar-adopciones/{adopcion.id}')
+
+        # Verificar si la mascota ya fue adoptada por otra persona (excepto esta adopción)
+        if Adopcion.objects.filter(id_mascota=mascota).exclude(id=adopcion.id).exists():
+            messages.error(request, 'Esta mascota ya fue adoptada por otra persona.')
+            return redirect(f'/editar-adopciones/{adopcion.id}')
+
+        # Actualizar datos si pasa las validaciones
+        adopcion.id_persona = persona
+        adopcion.id_mascota = mascota
+        adopcion.fecha_adopcion = fecha_adopcion
+        adopcion.observaciones = observaciones
+        adopcion.save()
+
+        # Cambiar estado de la mascota si es necesario
+        mascota.estado = 'Adoptada'
+        mascota.save()
+
+        messages.success(request, 'Adopción actualizada correctamente.')
+        return redirect('/listar-adopciones')
+
+>>>>>>> f096ce2743f925f3f07d70c3cdade7d8e3beb1d1
