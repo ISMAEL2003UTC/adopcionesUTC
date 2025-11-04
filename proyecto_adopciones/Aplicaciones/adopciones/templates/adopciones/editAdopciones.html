@@ -1,0 +1,80 @@
+{% extends '../plantilla.html' %}
+{% load static %}
+{% block body %}
+<div class="container mt-5">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="m-0"><i class="fas fa-book-medical me-2"></i> Editar Adopción</h2>
+        <a href="/listar-adopciones" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Volver a la lista
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form action="/procesar-info-adopciones" method="post">
+                {% csrf_token %}
+                
+                <input type="hidden" name="id" value="{{ adopciones.id }}">
+                
+                <!-- Persona -->
+                <div class="mb-3">
+                    <label for="persona" class="form-label">Nombre Persona</label>
+                    <select name="personas" id="persona" class="form-select" required>
+                        <option value="" disabled>Seleccione una Persona</option>
+                        {% for persona in personas %}
+                            <option value="{{ persona.id_persona }}" 
+                                {% if persona.id_persona == adopciones.id_persona.id_persona %}selected{% endif %}>
+                                {{ persona.nombre }} {{ persona.apellido }}
+                            </option>  
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Mascota -->
+                <div class="mb-3">
+                    <label for="mascotas" class="form-label">Mascota</label>
+                    <select name="mascotas" id="mascotas" class="form-select" required>
+                        {% for mascota in mascotas %}
+                            <option value="{{ mascota.id }}" 
+                                {% if mascota.id == adopciones.id_mascota.id %}selected{% endif %}>
+                                {{ mascota.nombre }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Fecha -->
+                <div class="mb-3">
+                    <label for="fecha_adopcion" class="form-label">Fecha de Adopción</label>
+                    <input 
+                        type="date" 
+                        name="fecha_adopcion" 
+                        id="fecha_adopcion" 
+                        class="form-control" 
+                        value="{{ adopciones.fecha_adopcion|date:'Y-m-d' }}" 
+                        required>
+                </div>
+
+                <!-- Observaciones -->
+                <div class="mb-3">
+                    <label for="observaciones" class="form-label">Observaciones</label>
+                    <textarea 
+                        name="observaciones" 
+                        id="observaciones" 
+                        rows="3" 
+                        class="form-control" 
+                        required>{{ adopciones.observaciones }}</textarea>
+                </div>
+
+                <!-- Botón Guardar -->
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i> Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
