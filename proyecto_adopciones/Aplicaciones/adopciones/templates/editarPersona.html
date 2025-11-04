@@ -5,7 +5,7 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Editar Persona</h2>
 
-    <form id="formEditarPersona" method="POST" class="shadow p-4 rounded bg-light"  enctype="multipart/form-data">
+    <form id="formEditarPersona" method="POST" class="shadow p-4 rounded bg-light" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="mb-3">
@@ -25,18 +25,19 @@
 
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
-            <input type="email" id="email" name="email" class="form-control"  value="{{ persona.email|default:'' }}">
+            <input type="email" id="email" name="email" class="form-control" value="{{ persona.email|default:'' }}">
         </div>
 
         <div class="mb-3">
             <label for="direccion" class="form-label">Dirección:</label>
             <textarea id="direccion" name="direccion" class="form-control" rows="3">{{ persona.direccion|default:'' }}</textarea>
         </div>
+
         <div class="mb-3">
             <label for="imagen" class="form-label">Imagen:</label>
-            <input type="file" id="imagen" name="imagen" class="form-control">
+            <input id="imagen" name="imagen" type="file" class="file" data-show-preview="true" data-show-remove="true" data-show-upload="false">
             {% if persona.imagen %}
-                <img src="{{ persona.imagen.url }}" alt="Foto" width="80" height="80" style="object-fit: cover; border-radius: 50%;">
+                <img src="{{ persona.imagen.url }}" alt="Foto" width="80" height="80" style="object-fit: cover; border-radius: 50%; margin-top: 10px;">
             {% endif %}
         </div>
 
@@ -63,6 +64,21 @@ function confirmarEdicion() {
         }
     });
 }
+</script>
+
+<script>
+$(document).ready(function() {
+    $("#imagen").fileinput({
+        language: 'es',
+        allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+        maxFileSize: 2048, // 2 MB
+        showPreview: true,
+        showUpload: false,
+        showRemove: true,
+        initialPreviewAsData: true,
+        theme: 'fas'
+    });
+});
 </script>
 
 {% endblock %}

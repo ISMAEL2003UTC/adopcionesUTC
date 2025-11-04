@@ -32,9 +32,11 @@
             <label for="direccion" class="form-label">Dirección:</label>
             <textarea id="direccion" name="direccion" class="form-control" rows="3" placeholder="Ingrese la dirección"></textarea>
         </div>
+
         <div class="mb-3">
             <label for="imagen" class="form-label">Foto:</label>
-            <input type="file" id="imagen" name="imagen" class="form-control" required>
+            <!-- Input de File Input -->
+            <input id="imagen" name="imagen" type="file" class="file" data-show-preview="true" data-show-remove="true" data-show-upload="false" required>
         </div>
 
         <div class="d-flex justify-content-between">
@@ -43,21 +45,6 @@
         </div>
     </form>
 </div>
-<script>
-$(document).ready(function() {
-    $("#imagen").fileinput({
-        theme: "fas",
-        showUpload: false,
-        showCaption: true,
-        allowedFileExtensions: ["jpg", "jpeg", "png", "gif"],
-        maxFileSize: 2048, // 2MB
-        maxFilesNum: 1,
-        initialPreviewAsData: true,
-        browseLabel: "Seleccionar",
-        removeLabel: "Eliminar",
-    });
-});
-</script>
 
 <script>
 function confirmarGuardado() {
@@ -75,6 +62,22 @@ function confirmarGuardado() {
         }
     });
 }
+</script>
+
+
+<script>
+$(document).ready(function() {
+    $("#imagen").fileinput({
+        language: 'es',
+        allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+        maxFileSize: 2048, // 2 MB
+        showPreview: true,
+        showUpload: false,
+        showRemove: true,
+        initialPreviewAsData: true,
+        theme: 'fas'
+    });
+});
 </script>
 
 {% endblock %}
