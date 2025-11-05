@@ -32,7 +32,7 @@
                     <label for="mascotas" class="form-label">Mascotas</label>
                     <select name="mascotas" id="mascotas" class="form-select" >
                         {% for mascota in mascotas %}
-                            <option value="{{ mascota.id }}">{{ mascota.nombre }} </option>
+                            <option value="{{ mascota.id_mascota }}">{{ mascota.nombre }}</option>
                         {% endfor %}
                     </select>
                     <!-- <small class="form-text text-muted">Puedes seleccionar varios alumnos usando Ctrl (Cmd en Mac).</small> -->

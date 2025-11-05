@@ -1,4 +1,5 @@
 
+from django.shortcuts import redirect
 from django.urls import path
 
 from proyecto_adopciones import settings
@@ -14,17 +15,21 @@ urlpatterns = [
     path('persona/eliminarPersona/<int:id_persona>/', views.eliminarPersona, name='eliminarPersona'),
 
 
-    #adopciones
+    #adopciones#########################################################
     path('listar-adopciones',views.listar_adopciones),
     path('crear-adopciones',views.crear_adopciones),
     path('guardar-adopciones',views.guardar_adopciones),
-    path('eliminar-adopciones/<id>',views.eliminar_adopciones),
-    #path('editar-adopciones/<id>',views.editar_adopciones),
-    #path('procesar-info-adopciones',views.procesar_info_adopciones),
+    path('eliminar-adopciones/<id>/', views.eliminar_adopciones, name='eliminar_adopciones'),
     path('editar-adopciones/<id>',views.editar_adopciones),
     path('procesar-info-adopciones',views.procesar_info_adopciones),
+    #mascotas #############################################################
+    path('eliminarMascota/<id_mascota>', views.eliminarMascota),
+    path('nuevaMascota/', views.nuevaMascota, name='nuevaMascota'),
+    path('guardarMascota/', views.guardarMascota, name='guardarMascota'),
+    path('editarMascota/<id_mascota>', views.editarMascota, name='editarMascota'),
+    path('actualizarMascota/<id_mascota>/', views.actualizarMascota, name='actualizarMascota'),
 
-    
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

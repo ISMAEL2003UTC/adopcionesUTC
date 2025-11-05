@@ -5,38 +5,46 @@
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6 bg-light">
-        <h1>NUEVA MASCOTA </h1>
-        <form action="{% url 'guardarMascota' %}" id="form_mascota" 
+        <h1>EDITAR MASCOTA </h1>
+        <form action="{% url 'actualizarMascota' mascotaEditar.id_mascota %}" id="form_mascota" 
       enctype="multipart/form-data" 
       method="post">
 
             {% csrf_token %}
+            <input  type="hidden" name="id" id="id" value="{{mascotaEditar.id}}"><br>
+
             <label for="">Nombre</label><br>
-            <input required placeholder="Ingrese el nombre de la mascota" class="form-control" type="text" name="nombre" id="nombre"><br>
+            <input required placeholder="Ingrese el nombre de la mascota" class="form-control" type="text" name="nombre" id="nombre" value="{{mascotaEditar.nombre}}"><br>
 
             <label for="">Descripción</label><br>
-            <input required placeholder="Ingrese la descripción" class="form-control" type="text" name="descripcion" id="descripcion"><br>
+            <input required placeholder="Ingrese la descripción" class="form-control" type="text" name="descripcion" id="descripcion" value="{{mascotaEditar.descripcion}}"><br>
             <label for="">Especie</label><br>
-            <input required placeholder="Ingrese la especie" class="form-control" type="text" name="especie" id="especie"><br>
+            <input required placeholder="Ingrese la especie" class="form-control" type="text" name="especie" id="especie" value="{{mascotaEditar.especie}}"><br>
             <label for="">Raza</label><br>
-            <input required placeholder="Ingrese la raza" class="form-control" type="text" name="raza" id="raza"><br>
+            <input required placeholder="Ingrese la raza" class="form-control" type="text" name="raza" id="raza" value="{{mascotaEditar.raza}}"><br>
 
             <label for="">Edad</label><br>
-            <input required placeholder="Ingrese la edad" class="form-control" type="number" name="edad" id="edad"><br>
+            <input required placeholder="Ingrese la edad" class="form-control" type="number" name="edad" id="edad" value="{{mascotaEditar.edad}}"><br>
             <label>Sexo</label>
             <select class="form-control" name="sexo">
                 <option value="">Seleccione el sexo</option>
-                <option value="Macho">Macho</option>
-                <option value="Hembra">Hembra</option>
+                <option value="Macho" {% if mascotaEditar.sexo == "Macho" %}selected{% endif %}>Macho</option>
+                <option value="Hembra" {% if mascotaEditar.sexo == "Hembra" %}selected{% endif %}>Hembra</option>
             </select><br>
             <label for="">Color</label><br>
-            <input required placeholder="Ingrese el color" class="form-control" type="text" name="color" id="color"><br>
+            <input required placeholder="Ingrese el color" class="form-control" type="text" name="color" id="color" value="{{mascotaEditar.color}}"><br>
             <label for="">Foto</label><br>
-            <input required class="form-control" type="file" name="foto" id="foto" accept=".jpg,.jpeg,.png"><br>
+            {% if mascotaEditar.foto %}
+                <img src="{{ mascotaEditar.foto.url }}" alt="Foto mascota" width="150"><br>
+            {% endif %}
+            <input class="form-control" type="file" name="foto" id="foto" accept=".jpg,.jpeg,.png"><br>
+
             <label>Estado</label>
             <select class="form-control" name="estado">
                 <option value="">Seleccione el estado</option>
-                <option value="Disponible">Disponible</option>
+                <option value="Disponible" {% if mascotaEditar.estado == "Disponible" %}selected{% endif %}>Disponible</option>
+                <option value="Adoptado" {% if mascotaEditar.estado == "Adoptado" %}selected{% endif %}>Adoptado</option>
+
             </select><br>
 
             
@@ -45,7 +53,7 @@
 
             
             <button
-            class="btn btn-success" type="submit">Guardar</button>
+            class="btn btn-success" type="submit">Actualizar</button>
             <a 
             class="btn btn-outline-danger" href="/mascota">Cancelar</a>
         </form>
@@ -90,7 +98,7 @@
                     maxlength:20
                 },
                 foto: {
-                    required: true,
+                    required: false,
                     extension: "jpg|jpeg|png"
                 },
                 "estado":{

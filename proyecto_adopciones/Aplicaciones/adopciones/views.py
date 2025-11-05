@@ -137,39 +137,37 @@ def guardar_adopciones(request):
     observaciones = request.POST.get('observaciones')
 
     persona = Persona.objects.get(id_persona=personas_id)
-    mascota = Mascota.objects.get(id=mascotas_id)
+    mascota = Mascota.objects.get(id_mascota=mascotas_id)
 
-    #  Verificar si la persona ya adoptó esa mascota
     if Adopcion.objects.filter(id_persona=persona, id_mascota=mascota).exists():
         messages.error(request, 'Esta persona ya adoptó esta mascota.')
         return redirect('/crear-adopciones')
 
-    # Verificar si la mascota ya fue adoptada por alguien más
     if Adopcion.objects.filter(id_mascota=mascota).exists():
         messages.error(request, 'Esta mascota ya fue adoptada por otra persona.')
         return redirect('/crear-adopciones')
 
-    #  Crear la adopción
-    adopcion = Adopcion.objects.create(
+    Adopcion.objects.create(
         id_persona=persona,
         id_mascota=mascota,
         fecha_adopcion=fecha_adopcion,
         observaciones=observaciones
     )
 
-    # Cambiar estado de la mascota
     mascota.estado = 'Adoptada'
     mascota.save()
 
     messages.success(request, 'Adopción registrada correctamente.')
     return redirect('/listar-adopciones')
 
-def eliminar_adopciones(request,id):
-    adopcion = Adopcion.objects.get(id=id)
+def eliminar_adopciones(request, id):
+    adopcion = Adopcion.objects.get(id_adopcion=id)
     nombre = adopcion.id_mascota.nombre
     adopcion.delete()
-    messages.success(request, f'Adopcion de mascota  {nombre} eliminado correctamente')
+    messages.success(request, f'Adopción de mascota {nombre} eliminada correctamente')
     return redirect('/listar-adopciones')
+
+
 
 
 def editar_adopciones(request,id):
@@ -186,31 +184,96 @@ def procesar_info_adopciones(request):
         fecha_adopcion = request.POST.get('fecha_adopcion')
         observaciones = request.POST.get('observaciones')
 
-        adopcion = Adopcion.objects.get(id=id_adopcion)
+        adopcion = Adopcion.objects.get(id_adopcion=id_adopcion)
         persona = Persona.objects.get(id_persona=personas_id)
-        mascota = Mascota.objects.get(id=mascotas_id)
+        mascota = Mascota.objects.get(id_mascota=mascotas_id)
 
-        # Verificar si esa persona ya adoptó esa misma mascota (excepto esta adopción)
-        if Adopcion.objects.filter(id_persona=persona, id_mascota=mascota).exclude(id=adopcion.id).exists():
+        if Adopcion.objects.filter(id_persona=persona, id_mascota=mascota).exclude(id_adopcion=adopcion.id_adopcion).exists():
             messages.error(request, 'Esta persona ya adoptó esta mascota.')
-            return redirect(f'/editar-adopciones/{adopcion.id}')
+            return redirect(f'/editar-adopciones/{adopcion.id_adopcion}')
 
-        # Verificar si la mascota ya fue adoptada por otra persona (excepto esta adopción)
-        if Adopcion.objects.filter(id_mascota=mascota).exclude(id=adopcion.id).exists():
+        if Adopcion.objects.filter(id_mascota=mascota).exclude(id_adopcion=adopcion.id_adopcion).exists():
             messages.error(request, 'Esta mascota ya fue adoptada por otra persona.')
-            return redirect(f'/editar-adopciones/{adopcion.id}')
+            return redirect(f'/editar-adopciones/{adopcion.id_adopcion}')
 
-        # Actualizar datos si pasa las validaciones
         adopcion.id_persona = persona
         adopcion.id_mascota = mascota
         adopcion.fecha_adopcion = fecha_adopcion
         adopcion.observaciones = observaciones
         adopcion.save()
 
-        # Cambiar estado de la mascota si es necesario
         mascota.estado = 'Adoptada'
         mascota.save()
 
         messages.success(request, 'Adopción actualizada correctamente.')
         return redirect('/listar-adopciones')
 
+    
+    # MASCOTA ######################
+
+def guardarMascota(request):
+    nombre = request.POST["nombre"]
+    descripcion = request.POST["descripcion"]
+    especie = request.POST["especie"]
+    raza = request.POST["raza"]
+    edad = request.POST["edad"]
+    sexo = request.POST["sexo"]
+    color = request.POST["color"]
+    estado = request.POST["estado"]
+    foto = request.FILES.get("foto")
+
+    Mascota.objects.create(
+        nombre=nombre,
+        descripcion=descripcion,
+        especie=especie,
+        raza=raza,
+        edad=edad,
+        sexo=sexo,
+        color=color,
+        estado=estado,
+        foto=foto
+    )
+
+    messages.success(request, "Mascota registrada exitosamente.")
+    return redirect("/mascota")
+
+
+def editarMascota(request, id_mascota):
+    mascotaEditar = Mascota.objects.get(id_mascota=id_mascota)
+    return render(request, "editarMascota.html", {'mascotaEditar': mascotaEditar})
+
+
+def actualizarMascota(request, id_mascota):
+    if request.method == "POST":
+        nombre = request.POST["nombre"]
+        descripcion = request.POST["descripcion"]
+        especie = request.POST["especie"]
+        raza = request.POST["raza"]
+        edad = request.POST["edad"]
+        sexo = request.POST["sexo"]
+        color = request.POST["color"]
+        estado = request.POST["estado"]
+
+        mascota = Mascota.objects.get(id_mascota=id_mascota)
+        mascota.nombre = nombre
+        mascota.descripcion = descripcion
+        mascota.especie = especie
+        mascota.raza = raza
+        mascota.edad = edad
+        mascota.sexo = sexo
+        mascota.color = color
+        mascota.estado = estado
+
+        if request.FILES.get("foto"):
+            mascota.foto = request.FILES["foto"]
+
+        mascota.save()
+        messages.success(request, "Mascota actualizada exitosamente.")
+        return redirect("/mascota")
+
+
+def eliminarMascota(request, id_mascota):
+    mascotaEliminar = Mascota.objects.get(id_mascota=id_mascota)
+    mascotaEliminar.delete()
+    messages.success(request, "Mascota eliminada exitosamente.")
+    return redirect('/mascota')
